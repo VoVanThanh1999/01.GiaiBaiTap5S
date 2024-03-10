@@ -1,0 +1,5 @@
+package com.btg.solve.exercises.service.imp;
+
+public class AuthenticationServiceImpl {
+
+}

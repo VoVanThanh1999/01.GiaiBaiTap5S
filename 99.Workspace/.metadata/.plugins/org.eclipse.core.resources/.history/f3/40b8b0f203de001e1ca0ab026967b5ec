@@ -1,0 +1,7 @@
+package com.btg.solve.exercises.service.imp;
+
+import com.btg.solve.exercises.service.UserService;
+
+public class UserServiceImpl implements UserService {
+
+}

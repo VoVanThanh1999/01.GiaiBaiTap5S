@@ -1,0 +1,24 @@
+package com.btg.solve.exercises.controller;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import com.btg.solve.exercises.dto.request.SignUpRequest;
+import com.btg.solve.exercises.dto.request.SigninRequest;
+import com.btg.solve.exercises.dto.response.JwtAuthenticationResponse;
+import com.btg.solve.exercises.service.AuthenticationService;
+
+public class AuthenticationController {
+	private final AuthenticationService authenticationService;
+
+	@PostMapping("/signup")
+	public ResponseEntity<JwtAuthenticationResponse> signup(@RequestBody SignUpRequest request) {
+		return ResponseEntity.ok(authenticationService.signup(request));
+	}
+
+	@PostMapping("/signin")
+	public ResponseEntity<JwtAuthenticationResponse> signin(@RequestBody SigninRequest request) {
+		return ResponseEntity.ok(authenticationService.signin(request));
+	}
+}

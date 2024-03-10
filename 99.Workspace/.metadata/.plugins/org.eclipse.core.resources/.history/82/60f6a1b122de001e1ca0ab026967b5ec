@@ -1,0 +1,5 @@
+package com.btg.solve.exercises.dto.response;
+
+public class ApiErrorResponse {
+
+}

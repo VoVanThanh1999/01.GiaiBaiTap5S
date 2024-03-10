@@ -1,0 +1,7 @@
+package com.btg.solve.exercises.service;
+
+public interface AuthenticationService {
+	 JwtAuthenticationResponse signup(SignUpRequest request);
+
+	    JwtAuthenticationResponse signin(SigninRequest request);
+}

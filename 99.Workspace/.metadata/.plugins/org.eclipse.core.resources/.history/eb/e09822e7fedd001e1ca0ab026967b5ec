@@ -1,0 +1,5 @@
+package com.btg.solve.exercises.dto.request;
+
+public class SignUpRequest {
+
+}

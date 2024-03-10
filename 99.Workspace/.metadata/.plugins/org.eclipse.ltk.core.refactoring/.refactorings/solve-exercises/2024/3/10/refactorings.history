@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring accessors="true" comment="Delete element from project &apos;solve-exercises&apos;&#x0A;- Original project: &apos;solve-exercises&apos;&#x0A;- Original element: &apos;solve-exercises/src/main/java/com.btg.solve.exercises.com.btg.solve.exercises&apos;" description="Delete element" element1="/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.btg.solve.exercises.com.btg.solve.exercises" element2="/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.btg.solve.exercises.com.btg.solve" element3="/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.btg.solve.exercises.com.btg" element4="/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.btg.solve.exercises.com" elements="4" flags="589830" id="org.eclipse.jdt.ui.delete" resources="0" stamp="1709979113878" subPackages="false" version="1.0"/>
+</session>

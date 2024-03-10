@@ -1,0 +1,5 @@
+package com.btg.solve.exercises.service;
+
+public interface UserService {
+
+}

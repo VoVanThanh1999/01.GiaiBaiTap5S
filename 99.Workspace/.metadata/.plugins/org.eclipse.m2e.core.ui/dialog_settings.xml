@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="MavenProjectImportWizardPage">
+		<list key="rootDirectory">
+			<item value="/Users/thanhvv/Documents/ThanhVV11/03. Công việc/01. Dự án cá nhân/01. Giải bài tập bằng camera/02.Backend/exercises"/>
+			<item value="/Users/thanhvv/Documents/ThanhVV11/03. Công việc/01. Dự án cá nhân/01. Giải bài tập bằng camera/02.Backend/solve"/>
+			<item value="/Users/thanhvv/Documents/ThanhVV11/03. Công việc/01. Dự án cá nhân/01. Giải bài tập bằng camera/02.Backend/solve-exercises"/>
+		</list>
+		<list key="projectNameTemplate">
+			<item value="[artifactId]"/>
+			<item value="[artifactId]-TRUNK"/>
+			<item value="[artifactId]-[version]"/>
+			<item value="[groupId].[artifactId]"/>
+			<item value="[groupId].[artifactId]-[version]"/>
+			<item value="[name]"/>
+		</list>
+	</section>
+	<section name="org.eclipse.m2e.core.pom.overview">
+	</section>
+	<section name="org.eclipse.m2e.core.pom.dependencies">
+	</section>
+</section>
