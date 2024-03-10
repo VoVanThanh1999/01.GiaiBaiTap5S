@@ -10,12 +10,10 @@ import org.springframework.web.context.request.WebRequest;
 
 import com.btg.solve.exercises.dto.response.ApiError;
 
-
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
 public class RestExceptionHandler {
-	
-	
+
 	/**
 	 * Handle common exception
 	 *

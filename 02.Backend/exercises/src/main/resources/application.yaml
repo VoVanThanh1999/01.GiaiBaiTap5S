@@ -22,6 +22,13 @@ spring:
   h2:
     console:
       enabled: true
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: 606cb99e3584880600c2
+            client-secret: 646a86576aa849045410a5bf0aea1ef8bb4e3041
 token:
   signing:
     key: 413F4428472B4B6250655368566D5970337336763979244226452948404D6351

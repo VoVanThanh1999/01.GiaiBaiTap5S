@@ -1,7 +1,5 @@
 package com.btg.solve.exercises.config;
 
-import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -33,9 +31,12 @@ public class SecurityConfiguration {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.csrf(AbstractHttpConfigurer::disable)
 				.authorizeHttpRequests(
-						request -> request.requestMatchers("/api/v1/auth/**", "/h2-console/**").permitAll()
-								.anyRequest().authenticated())
-				.sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
+						request -> request.requestMatchers("/api/v1/auth/**", "/h2-console/**", "/oauth2Success")
+								.permitAll()
+								.anyRequest()
+								.authenticated())
+				.oauth2Login(oauht2 -> oauht2.defaultSuccessUrl("/oauth2Success").failureUrl("/api/v1/auth/signin"))
+
 				.authenticationProvider(authenticationProvider())
 				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 		return http.build();

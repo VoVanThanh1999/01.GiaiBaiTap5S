@@ -25,7 +25,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	private final AuthenticationManager authenticationManager;
 
 	@Override
-	public JwtAuthenticationResponse signup(SignUpRequest request) {
+	public JwtAuthenticationResponse signup(SignUpRequest request) throws Exception {
 		var user = User.builder().firstName(request.getFirstName()).lastName(request.getLastName())
 				.email(request.getEmail()).password(passwordEncoder.encode(request.getPassword())).role(Role.USER)
 				.build();
@@ -35,7 +35,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	@Override
-	public JwtAuthenticationResponse signin(SigninRequest request) {
+	public JwtAuthenticationResponse signin(SigninRequest request) throws Exception {
 		authenticationManager
 				.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
 		var user = userRepository.findByEmail(request.getEmail())

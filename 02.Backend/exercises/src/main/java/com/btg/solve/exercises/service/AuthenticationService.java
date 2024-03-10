@@ -5,7 +5,7 @@ import com.btg.solve.exercises.dto.request.SigninRequest;
 import com.btg.solve.exercises.dto.response.JwtAuthenticationResponse;
 
 public interface AuthenticationService {
-	JwtAuthenticationResponse signup(SignUpRequest request);
+	JwtAuthenticationResponse signup(SignUpRequest request) throws Exception;
 
-	JwtAuthenticationResponse signin(SigninRequest request);
+	JwtAuthenticationResponse signin(SigninRequest request) throws Exception;
 }

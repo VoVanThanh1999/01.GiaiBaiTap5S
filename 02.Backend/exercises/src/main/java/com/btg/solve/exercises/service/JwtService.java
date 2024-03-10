@@ -4,9 +4,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 
 public interface JwtService {
-	String extractUserName(String token);
+	String extractUserName(String token) throws Exception;
 
-	String generateToken(UserDetails userDetails);
+	String generateToken(UserDetails userDetails) throws Exception;
 
-	boolean isTokenValid(String token, UserDetails userDetails);
+	boolean isTokenValid(String token, UserDetails userDetails) throws Exception;
 }

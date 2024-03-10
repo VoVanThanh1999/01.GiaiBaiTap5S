@@ -24,7 +24,7 @@ public class JwtServiceImpl implements JwtService {
 	private String jwtSigningKey;
 
 	@Override
-	public String extractUserName(String token) {
+	public String extractUserName(String token) throws Exception {
 		return extractClaim(token, Claims::getSubject);
 	}
 
@@ -34,14 +34,18 @@ public class JwtServiceImpl implements JwtService {
 	}
 
 	@Override
-	public boolean isTokenValid(String token, UserDetails userDetails) {
+	public boolean isTokenValid(String token, UserDetails userDetails) throws Exception {
 		final String userName = extractUserName(token);
 		return (userName.equals(userDetails.getUsername())) && !isTokenExpired(token);
 	}
 
-	private <T> T extractClaim(String token, Function<Claims, T> claimsResolvers) {
-		final Claims claims = extractAllClaims(token);
-		return claimsResolvers.apply(claims);
+	private <T> T extractClaim(String token, Function<Claims, T> claimsResolvers) throws Exception {
+		try {
+			final Claims claims = extractAllClaims(token);
+			return claimsResolvers.apply(claims);
+		} catch (Exception e) {
+			throw new Exception(e);
+		}
 	}
 
 	private String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
@@ -51,11 +55,11 @@ public class JwtServiceImpl implements JwtService {
 				.signWith(getSigningKey(), SignatureAlgorithm.HS256).compact();
 	}
 
-	private boolean isTokenExpired(String token) {
+	private boolean isTokenExpired(String token) throws Exception {
 		return extractExpiration(token).before(new Date());
 	}
 
-	private Date extractExpiration(String token) {
+	private Date extractExpiration(String token) throws Exception {
 		return extractClaim(token, Claims::getExpiration);
 	}
 

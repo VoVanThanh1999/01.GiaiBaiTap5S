@@ -22,7 +22,7 @@ public class ApiError {
 
 	private Throwable ex;
 
-	private ApiError() {
+	public ApiError() {
 		timestamp = LocalDateTime.now();
 	}
 

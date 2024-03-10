@@ -6,6 +6,7 @@ import java.io.IOException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
@@ -15,8 +16,12 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.btg.solve.exercises.dto.response.ApiError;
 import com.btg.solve.exercises.service.JwtService;
 import com.btg.solve.exercises.service.UserService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -37,32 +42,49 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response,
 			@NonNull FilterChain filterChain) throws ServletException, IOException {
-		final String authHeader = request.getHeader("Authorization");
-		final String jwt;
-		final String userEmail;
-		if (StringUtils.isEmpty(authHeader) || !StringUtils.startsWith(authHeader, "Bearer ")) {
-			filterChain.doFilter(request, response);
-			return;
-		}
-		jwt = authHeader.substring(7);
-		userEmail = jwtService.extractUserName(jwt);
-		if (StringUtils.isNotEmpty(userEmail) && SecurityContextHolder.getContext().getAuthentication() == null) {
-			UserDetails userDetails = userService.userDetailsService().loadUserByUsername(userEmail);
-			if (jwtService.isTokenValid(jwt, userDetails)) {
-				SecurityContext context = SecurityContextHolder.createEmptyContext();
-				UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails,
-						null, userDetails.getAuthorities());
-				authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-				context.setAuthentication(authToken);
-				SecurityContextHolder.setContext(context);
+		try {
+			final String authHeader = request.getHeader("Authorization");
+			final String jwt;
+			final String userEmail;
+			if (StringUtils.isEmpty(authHeader) || !StringUtils.startsWith(authHeader, "Bearer ")) {
+				filterChain.doFilter(request, response);
+				return;
 			}
+			jwt = authHeader.substring(7);
+			userEmail = jwtService.extractUserName(jwt);
+			if (StringUtils.isNotEmpty(userEmail) && SecurityContextHolder.getContext().getAuthentication() == null) {
+				UserDetails userDetails = userService.userDetailsService().loadUserByUsername(userEmail);
+				if (jwtService.isTokenValid(jwt, userDetails)) {
+					SecurityContext context = SecurityContextHolder.createEmptyContext();
+					UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails,
+							null, userDetails.getAuthorities());
+					authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+					context.setAuthentication(authToken);
+					SecurityContextHolder.setContext(context);
+				}
+			}
+
+			logger.info("Request URL::" + request.getRemoteAddr() + " - Method::" + request.getLocalPort());
+
+			filterChain.doFilter(request, response);
+
+			logger.info("Response Sent for::" + request.getRemoteAddr() + " - Method::" + request.getLocalPort());
+
+		} catch (Exception e) {
+			// custom error response class used across my project
+			ApiError errorResponse = new ApiError(HttpStatus.BAD_REQUEST, e);
+			response.setStatus(HttpStatus.BAD_REQUEST.value());
+			response.setContentType("application/json");
+			response.getWriter().write(convertObjectToJson(errorResponse));
 		}
+	}
 
-		logger.info("Request URL::" + request.getRemoteAddr() + " - Method::" + request.getLocalPort());
-
-		filterChain.doFilter(request, response);
-
-		logger.info("Response Sent for::" + request.getRemoteAddr() + " - Method::" + request.getLocalPort());
-
+	private String convertObjectToJson(Object object) throws JsonProcessingException {
+		if (object == null) {
+			return null;
+		}
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.registerModule(new JavaTimeModule());
+		return mapper.writeValueAsString(object);
 	}
 }
